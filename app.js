@@ -1,17 +1,21 @@
 const fs = require("fs");
+const path = require('path');
 const express = require("express");
 const multer = require("multer");
-var name, pic
-
-const { google } = require("googleapis");
-
-const OAuth2Data = require('./creadentials.json');
+const { google } = require("googleapis");// importing google
+// const OAuth2Data = require('./creadentials.json'); // for our client id and secret id
 const app = express();
+const dotenv = require('dotenv');
+dotenv.config({ path: 'config.env' });
+app.set("view engine", "ejs");
+app.use('/public', express.static(path.join(__dirname, 'public')));
 
 
-const CLIENT_ID = OAuth2Data.web.client_id;
-const CLIENT_SECRET = OAuth2Data.web.client_secret;
-const REDIRECT_URL = OAuth2Data.web.redirect_uris[0];
+
+
+const CLIENT_ID = process.env.client_id;
+const CLIENT_SECRET = process.env.client_secret;
+const REDIRECT_URL = process.env.redirect_uris;
 
 const oAuth2Client = new google.auth.OAuth2(
   CLIENT_ID,
@@ -23,7 +27,7 @@ var authed = false;
 // If modifying these scopes, delete token.json.
 const SCOPES = "https://www.googleapis.com/auth/drive.file https://www.googleapis.com/auth/userinfo.profile";
 
-app.set("view engine", "ejs");
+
 
 
 var Storage = multer.diskStorage({
@@ -39,6 +43,11 @@ var upload = multer({
   storage: Storage,
 }).single("file"); //Field name and max count
 
+
+
+
+
+var name, pic, _id
 app.get("/", (req, res) => {
   // res.render('index');
   if (!authed) {
@@ -59,6 +68,7 @@ app.get("/", (req, res) => {
         console.log(err);
       } else {
         console.log(response.data);
+        _id = response.data.id
         name = response.data.name
         pic = response.data.picture
         res.render("success", {
@@ -70,6 +80,34 @@ app.get("/", (req, res) => {
     });
   }
 });
+
+app.get('/logout', (req, res) => {
+  authed = false
+  res.redirect('/')
+})
+
+app.get("/auth/google/callback", function (req, res) {
+  const code = req.query.code;
+  if (code) {
+    // Get an access token based on our OAuth code
+    oAuth2Client.getToken(code, function (err, tokens) {
+      if (err) {
+        console.log("Error authenticating");
+        console.log(err);
+      } else {
+        console.log("Successfully authenticated");
+        console.log(tokens)
+        oAuth2Client.setCredentials(tokens);
+
+
+        authed = true;
+        res.redirect("/");
+      }
+    });
+  }
+});
+
+
 
 app.post("/upload", (req, res) => {
   upload(req, res, function (err) {
@@ -106,32 +144,23 @@ app.post("/upload", (req, res) => {
     }
   });
 });
-
-app.get('/logout', (req, res) => {
-  authed = false
-  res.redirect('/')
+const drive = google.drive({
+  version: 'v3',
+  auth: oAuth2Client
+})
+app.get('/delete', async function deletefile(req, res) {
+  try {
+    const response = await drive.files.delete({
+      fileId: '1xSFZCx1frPkL91x7igg5Rw4299jK87Qs'
+    });
+    console.log(response.data, response.status);
+    res.redirect('/')
+  } catch (err) {
+    console.log(err.message);
+    res.redirect('/')
+  }
 })
 
-app.get("/auth/google/callback", function (req, res) {
-  const code = req.query.code;
-  if (code) {
-    // Get an access token based on our OAuth code
-    oAuth2Client.getToken(code, function (err, tokens) {
-      if (err) {
-        console.log("Error authenticating");
-        console.log(err);
-      } else {
-        console.log("Successfully authenticated");
-        console.log(tokens)
-        oAuth2Client.setCredentials(tokens);
-
-
-        authed = true;
-        res.redirect("/");
-      }
-    });
-  }
-});
 
 app.listen(5000, () => {
   console.log("App is listening on Port 5000");
