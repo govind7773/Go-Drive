@@ -1,0 +1,50 @@
+*{
+    padding: 0px;
+    margin: 0px;
+}
+@import url('https://fonts.googleapis.com/css2?family=Bonheur+Royale&display=swap');
+body{
+    padding-top: 50px;
+    color: #433b3b;
+}
+.back-btn a{
+    color: white;
+    background-color: black;
+    font-size: 2.2rem;
+    width: 100px;
+    margin: 15px auto;
+    padding: 4px;
+    border-radius: 10px;
+    display: block;
+    text-decoration: none;
+    text-align: center;
+}
+.back-btn a:hover{
+    color: black;
+    background-color: #e9e9e9;
+    cursor: pointer;
+}
+h3{
+    color: #aa0000;
+}
+.btns{
+    color: white;
+    background-color: #c60606;
+    opacity: 0.8;
+    margin: 3px 11px;
+    font-size: 1.3rem;
+    padding: 9px 17px;
+    border-radius: 10px;
+    text-decoration: none;
+    text-align: center;
+}
+.btns:hover{
+    color: white;
+    background-color: #910a0a;
+    cursor: pointer;
+    text-decoration: none;
+    opacity: 1;
+}
+#alert{
+    color: green;
+}

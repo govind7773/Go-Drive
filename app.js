@@ -1,16 +1,18 @@
 const fs = require("fs");
+const open = require('open');
 const path = require('path');
 const express = require("express");
-const multer = require("multer");
-const { google } = require("googleapis");// importing google
-// const OAuth2Data = require('./creadentials.json'); // for our client id and secret id
 const app = express();
+const multer = require("multer");
+const { google } = require("googleapis");
 const dotenv = require('dotenv');
 dotenv.config({ path: 'config.env' });
-app.set("view engine", "ejs");
+
+
+
 app.use('/public', express.static(path.join(__dirname, 'public')));
 
-
+app.set("view engine", "pug");
 
 
 const CLIENT_ID = process.env.client_id;
@@ -44,7 +46,7 @@ var upload = multer({
 }).single("file"); //Field name and max count
 
 
-
+// oauth2client.setCredentials({ refresh_token: REFRESH_TOKEN });
 
 
 var name, pic, _id
@@ -74,7 +76,8 @@ app.get("/", (req, res) => {
         res.render("success", {
           name: response.data.name,
           pic: response.data.picture,
-          success: false
+          success: false,
+          delet: false
         });
       }
     });
@@ -98,7 +101,6 @@ app.get("/auth/google/callback", function (req, res) {
         console.log("Successfully authenticated");
         console.log(tokens)
         oAuth2Client.setCredentials(tokens);
-
 
         authed = true;
         res.redirect("/");
@@ -136,7 +138,7 @@ app.post("/upload", (req, res) => {
             console.error(err);
           } else {
             fs.unlinkSync(req.file.path)
-            res.render("success", { name: name, pic: pic, success: true })
+            res.render("success", { name: name, pic: pic, success: true, delet: false })
           }
 
         }
@@ -144,22 +146,79 @@ app.post("/upload", (req, res) => {
     }
   });
 });
+
+
+
 const drive = google.drive({
   version: 'v3',
   auth: oAuth2Client
 })
-app.get('/delete', async function deletefile(req, res) {
+
+
+
+app.get('/delete/:id', async function deletefile(req, res) {
   try {
+    const _id = req.params.id;
     const response = await drive.files.delete({
-      fileId: '1xSFZCx1frPkL91x7igg5Rw4299jK87Qs'
+      fileId: _id
     });
     console.log(response.data, response.status);
-    res.redirect('/')
+    authed = true;
+    res.render("success", { name: name, pic: pic, delet: true, success: false });
+    // res.redirect('/');
   } catch (err) {
     console.log(err.message);
     res.redirect('/')
   }
 })
+
+
+app.get('/download/:id', async function (req, res) {
+  try {
+    const fileid = req.params.id;
+    await drive.permissions.create({
+      fileId: fileid,
+      requestBody: {
+        role: 'reader',
+        type: 'anyone'
+      }
+    });
+    const result = await drive.files.get({
+      fileId: fileid,
+      fields: 'webContentLink'
+    });
+    console.log(result.data);
+    open(result.data.webContentLink);
+    // authed = true;
+    // res.redirect('/');
+  } catch (err) {
+    console.log(err.message);
+  }
+});
+app.get('/view/:id', async function (req, res) {
+  try {
+    const fileid = req.params.id;
+    await drive.permissions.create({
+      fileId: fileid,
+      requestBody: {
+        role: 'reader',
+        type: 'anyone'
+      }
+    });
+    const result = await drive.files.get({
+      fileId: fileid,
+      fields: 'webViewLink'
+    });
+    console.log(result.data);
+    open(result.data.webViewLink);
+    // authed = true;
+    // res.redirect('/');
+  } catch (err) {
+    console.log(err.message);
+  }
+});
+
+
 
 
 app.listen(5000, () => {

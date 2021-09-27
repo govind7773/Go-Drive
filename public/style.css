@@ -1,0 +1,172 @@
+*{
+    padding: 0px;
+    margin: 0px;
+}
+@import url('https://fonts.googleapis.com/css2?family=Bonheur+Royale&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Birthstone&display=swap');
+body{
+    background: linear-gradient(45deg, #c84c4c,#e3be79,#5858b8);
+}
+#nav_bar{
+    display: flex;
+    border-bottom: 2px solid black;
+}
+
+.right-nav ul{
+    width: 100%;
+    display: flex;
+    /* border: 1px solid red; */
+    flex-direction: row;
+    align-items: center;
+    font-weight: bold;
+    font-size: 1.2rem;
+    padding: 14px;
+    justify-content: center;
+    font-family: 'Bonheur Royale', cursive;
+}
+.right-nav ul li{
+    list-style: none;
+    padding: 0px 12px;
+}
+.right-nav ul a{
+  text-decoration: none;
+  color: black;
+  font-weight: bold;
+}
+.right-nav ul a:hover{
+    text-shadow: 1px 1px 2px;
+    color: #ff004b;
+  }
+.left-nav{
+width: 70%;
+/* border: 1px solid blue; */
+}
+.center-text{
+    text-align: center;
+}
+.left-nav h1{
+    padding: 5px 42px;
+    font-size: 2rem;
+    font-family: 'Bonheur Royale', cursive;
+}
+
+
+.container-main{
+    width: 600px;
+    margin:30px auto;
+    height: 200px;
+   
+}
+.container-main h1{
+    font-size: 3.5rem;
+    padding: 10px;
+    /* text-shadow: 2px 2px 5px; */
+    /* color: #7a42ba; */
+    color: black;
+    font-family: 'Bonheur Royale', cursive;
+}
+.container-main p{
+/* padding: 10px; */
+font-size: 1.2rem;
+}
+.container-upload{
+    width: 600px;
+    color: white;
+    height: 200px;
+    border-bottom: 2px solid black;
+    margin-left: 25px;
+    box-shadow: 2px -2px 5px black;
+    background-color: #57504f96;
+}
+#sec-picker{
+    display: flex;
+    flex-direction: row-reverse;
+}
+.container-picker{
+    margin-top:20px ;
+    margin-bottom: 20px;
+    /* float: right; */
+    width: 600px;
+    height: 200px;
+     border-bottom: 2px solid black;
+     font-family: 'Birthstone', cursive;
+    color: white;
+    margin-right: 25px;
+    box-shadow: 2px -2px 5px black;
+    background-color: #57504f96;
+ 
+}
+.container-upload h1{
+font-size: 2rem;
+margin: 12px;
+/* text-shadow: 2px 2px 5px; */
+/* color: #7a42ba;
+ */
+ color: white;
+ font-family: 'Bonheur Royale', cursive;
+}
+.container-upload p{
+    font-size: 1.2rem;
+    padding: 0px 28px;
+    font-family: 'Birthstone', cursive;
+}
+#upload_btn{
+    color: white;
+    background-color: black;
+    font-size: 1.2rem;
+    width: 100px;
+    margin: 15px auto;
+    padding: 4px;
+    border-radius: 10px;
+    display: block;
+    text-decoration: none;
+}
+#upload_btn:hover{
+    color: black;
+    background-color:white;
+    cursor: pointer;
+}
+.container-picker h1{
+    font-size: 2rem;
+    margin: 12px;
+    color: white;
+    font-family: 'Bonheur Royale', cursive;
+    }
+    .container-picker p{
+        font-size: 1.2rem;
+    padding: 0px 28px;
+    }
+#picker_btn {
+    color: white;
+    background-color: black;
+    font-size: 1.2rem;
+    width: 110px;
+    margin: 15px auto;
+    padding: 4px;
+    border-radius: 10px;
+    display: block;
+    text-decoration: none;
+}
+#picker_btn:hover{
+    color: black;
+    background-color:white;
+    cursor: pointer;
+}
+
+
+.footer-box h1{
+    font-size: 1.3rem;
+    text-align: center;
+    color: rgb(244 244 244);
+    margin: 14px;
+    font-family: 'Bonheur Royale', cursive;
+}
+
+
+.footer{
+    margin-top: auto;
+    border-top: 2px solid black;
+  
+    background-color: rgba(9 ,8 ,8 ,0.8);
+    height: 50px;
+}

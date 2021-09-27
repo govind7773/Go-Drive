@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Go Drive</title>
+  <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css" />
+  <link rel="stylesheet" href="../public/upload.css">
+  <script src="../public/filepicker.js"></script>
+
+</head>
+
+<body>
+  <div class="page-header text-center">
+    <h1><span class="fa fa-anchor"></span> Profile Page</h1>
+    <a href="/logout" class="btn btn-default btn-sm">Logout</a>
+  </div>
+
+
+  <div class="container">
+    <div class="row">
+      <div class="col-sm-6">
+        <div class="well">
+          <h3> 
+            <img src="#{pic}" width="150" height="150" style="border-radius: 30px;" alt="" />
+            <br />
+            <strong>name</strong>: #{name}
+          </h3>
+        </div>
+      </div>
+      <div class="col-sm-6">
+        <div class="well">
+          <h3 class="text-danger">
+            <span class="fa fa-google-plus"></span> Upload File to Drive
+          </h3>
+          if success
+            <div class="alert alert-success alert-dismissible">
+              <a href="#" class="close" data-dismiss="alert" aria-label="close">×</a>
+              <strong>Success!</strong> Your File is Uploaded.
+            </div>
+          <form action="/upload" method="POST" enctype="multipart/form-data">
+            <div class="form-group">
+              <input type="file" class="form-control" name="file" required id="" />
+            </div>
+            <div class="form-group">
+              <button class="btn btn-block btn-danger"> Upload File      
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+      <div class="col-sm-6">
+        <div class="well">
+          if delet
+            <div class="alert alert-success alert-dismissible">
+              <a href="#" class="close" data-dismiss="alert" aria-label="close">×</a>
+              <strong>done!</strong> Your File is successfully deleted.
+            </div>
+            
+          <div id="result"></div>
+          <h3>select a file</h3>
+
+          <p>
+            <button onclick="showPickerDialog()" id="pickerbtn">Select File</button>
+            <span id="alert"></span>
+          </p>
+          <a id="deletebtn" class="btns">delete</a>
+          <a id="download" class="btns">download</a>
+          <a id="view" class="btns">view File</a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="back-btn">
+    <h2><a href="/logout">Back</a></h2>
+  </div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="https://apis.google.com/js/api.js"></script>
+
+</body>
+
+</html>
